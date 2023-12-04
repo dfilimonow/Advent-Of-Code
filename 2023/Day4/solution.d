@@ -16,7 +16,8 @@ Card transform(const ref char[] s)
     auto numSplit = idSplit[1].split(" | ");
     return Card (idSplit[0].split(" ")[$ - 1].to!int, 
                  numSplit[0].split!isWhite.filter!(s => s.length != 0).map!(to!int).array, 
-                 numSplit[1].split!isWhite.filter!(s => s.length != 0).map!(to!int).array, 0);
+                 numSplit[1].split!isWhite.filter!(s => s.length != 0).map!(to!int).array, 
+                 0);
 }
 
 Card[] parseInput(File input) => input.byLine!(string)(KeepTerminator.no, std.ascii.newline).map!(l => l.transform).array;
