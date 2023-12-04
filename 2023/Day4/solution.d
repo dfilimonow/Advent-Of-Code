@@ -8,7 +8,7 @@ import std.typecons;
 import std.uni : isWhite;
 import std.math : pow;
 
-alias Card = Tuple!(int, "id", int[], "winningNumbers", int[], "numbers", ulong, "scratcheads");
+alias Card = Tuple!(int, "id", int[], "winningNumbers", int[], "numbers", ulong, "scratchcards");
 
 Card transform(const ref char[] s)
 {
@@ -24,20 +24,20 @@ ulong solutionEasy(const Card[] cards) =>
 
 ulong solutionHard(Card[] cards)
 {
-    ulong assignAndGetscratcheads(Card card)
+    ulong assignAndGetScratchcards(Card card)
     {
-        cards[card.id - 1].scratcheads = 1;
+        cards[card.id - 1].scratchcards = 1;
         foreach (i; 1..(card.numbers.filter!(num => !card.winningNumbers.find(num).empty).count + 1))
         {
             if (card.id - 1 + i < cards.length)
             {
-                cards[card.id - 1].scratcheads += cards[card.id - 1 + i].scratcheads;
+                cards[card.id - 1].scratchcards += cards[card.id - 1 + i].scratchcards;
             }
         }
-        return cards[card.id - 1].scratcheads;
+        return cards[card.id - 1].scratchcards;
     }
     
-    return cards.retro.map!(card => assignAndGetscratcheads(card)).sum;
+    return cards.retro.map!(card => assignAndGetScratchcards(card)).sum;
 }
 
 void main()
