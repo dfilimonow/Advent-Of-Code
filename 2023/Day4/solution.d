@@ -3,7 +3,7 @@ import std.array;
 import std.ascii;
 import std.conv: to;
 import std.algorithm: map, sum, filter, count, find;
-import std.range : enumerate, retro ;
+import std.range : enumerate, retro;
 import std.typecons;
 import std.uni : isWhite;
 import std.math : pow;
