@@ -26,7 +26,7 @@ ulong solutionEasy(const Card[] cards) =>
 
 ulong solutionHard(Card[] cards)
 {
-    ulong assignAndGetCount(Card card)
+    ulong assignAndGetscratcheads(Card card)
     {
         cards[card.id - 1].scratcheads = 1;
         foreach (i; 1..(card.numbers.filter!(num => !card.winningNumbers.find(num).empty).count + 1))
@@ -39,7 +39,7 @@ ulong solutionHard(Card[] cards)
         return cards[card.id - 1].scratcheads;
     }
     
-    return cards.retro.map!(card => assignAndGetCount(card)).sum;
+    return cards.retro.map!(card => assignAndGetscratcheads(card)).sum;
 }
 
 void main()
