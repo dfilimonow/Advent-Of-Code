@@ -25,23 +25,19 @@ Network parseInput(File input)
 string getNext(const ref Network network, string state) =>
     network.pattern.fold!((st, direction) => (direction == 'L' ? network.mapping[st].left : network.mapping[st].right))(state);
 
+int solutionEasy(Network network, string start, string end, bool delegate(string a, string b) pred) =>
+    pred(start, end) ? 0 : solutionEasy(network, getNext(network, start), end, pred) + network.pattern.length.to!int;
 
-int solutionEasy(Network network, string start, string end) =>
-    (start == end) ? 0 : solutionEasy(network, getNext(network, start), end) + network.pattern.length.to!int;
-
-int solutionHardSingle(Network network, string start, string end) =>
-    (start.back == end.back) ? 0 : solutionHardSingle(network, getNext(network, start), end) + network.pattern.length.to!int;
-
-long solutionHard(Network network, string possibleStart, string end) 
-{
-    long[] singleResults = network.mapping.keys.filter!(key => key.back == possibleStart.back).map!(start => solutionHardSingle(network, start, end).to!long).array;
-    return singleResults.fold!lcm(1.to!long);
-}
+long solutionHard(Network network, string possibleStart, string end, bool delegate(string a, string b) pred) =>
+    network.mapping.keys
+        .filter!(key => key.back == possibleStart.back)
+        .map!(start => solutionEasy(network, start, end, pred).to!long).array
+        .fold!lcm(1.to!long);
 
 void main()
 {
     File input = File("input.txt");
     Network network = input.parseInput;
-    solutionEasy(network, "AAA", "ZZZ").writeln;
-    solutionHard(network, "AAA", "ZZZ").writeln;
+    solutionEasy(network, "AAA", "ZZZ", ((a, b) => a == b)).writeln;
+    solutionHard(network, "AAA", "ZZZ", ((a, b) => a.back == b.back)).writeln;
 }
