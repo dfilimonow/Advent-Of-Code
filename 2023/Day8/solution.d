@@ -35,7 +35,7 @@ int solutionHardSingle(Network network, string start, string end) =>
 long solutionHard(Network network, string possibleStart, string end) 
 {
     long[] singleResults = network.mapping.keys.filter!(key => key.back == possibleStart.back).map!(start => solutionHardSingle(network, start, end).to!long).array;
-    return singleResults.fold!((acc, x) => lcm(acc, x))(1.to!long);
+    return singleResults.fold!lcm(1.to!long);
 }
 
 void main()
