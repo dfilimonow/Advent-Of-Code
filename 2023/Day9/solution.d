@@ -3,7 +3,6 @@ import std.ascii;
 import std.algorithm;
 import std.conv;
 import std.array;
-import std.typecons;
 
 int[][] parseInput(File input) => input.byLine!(string)(KeepTerminator.no, std.ascii.newline).map!(a => a.split.map!(to!int).array).array;
 
